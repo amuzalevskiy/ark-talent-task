@@ -44,9 +44,6 @@ const RightPanel: React.FC = () => {
       ]}
     >
       <div id="rightPanelContainer"></div>
-      <p>Card content</p>
-      <p>Card content</p>
-      <p>Card content</p>
     </Card>
   );
 };

@@ -26,13 +26,23 @@ const App: React.FC = () => {
         <Col span={12} className={styles.buttonContainer}>
           <Space>
             <Button>
-              Export to PDF <DownloadOutlined />
+              <Space>
+                Export to PDF
+                <DownloadOutlined style={{color: 'rgb(99, 154,143)'}} />
+              </Space>
             </Button>
             <Button>
-              Notes <Text type="secondary">(3)</Text> <FormOutlined />
+              <Space>
+                <span>Notes<Text type="secondary">(3)</Text></span>
+                <FormOutlined style={{color: 'rgb(99, 154,143)'}} />
+              </Space>
             </Button>
             <Button>
-              Filter <Badge count={"9+"} /> <FilterOutlined />
+              <Space>
+                Filter
+                <Badge count={"9+"} />
+                <FilterOutlined style={{color: 'rgb(99, 154,143)'}} />
+              </Space>
             </Button>
           </Space>
         </Col>
