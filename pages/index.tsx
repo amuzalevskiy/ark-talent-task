@@ -1,8 +1,9 @@
 import React from 'react';
-import { Layout, Space, Card, Typography, Col, Row } from 'antd';
+import { Layout, Space, Card, Typography, Col, Row, Button, Tag } from 'antd';
+import { DownloadOutlined, FormOutlined, FilterOutlined } from '@ant-design/icons';
 
 const { Header, Footer, Content } = Layout;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const headerStyle: React.CSSProperties = {
   height: 64,
@@ -24,7 +25,16 @@ const App: React.FC = () => (
     <Layout>
       <Header style={headerStyle}><Title>App title</Title></Header>
       <Content style={contentStyle}>
-        <Title level={2}>Page title</Title>
+        <Row gutter={16}>
+            <Col span={12}>
+              <Title level={2}>Page title</Title>
+            </Col>
+            <Col span={12}>
+              <Button>Export to PDF <DownloadOutlined /></Button>
+              <Button>Notes <Text type="secondary">(3)</Text> <FormOutlined /></Button>
+              <Button>Filter <Tag color="red">9+</Tag> <FilterOutlined /></Button>
+            </Col>
+        </Row>
         <Row gutter={16}>
           <Col span={12}>
             <Card title="Chart title" bordered={true}>
