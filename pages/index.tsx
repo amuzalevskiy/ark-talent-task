@@ -1,29 +1,19 @@
 import React, { useEffect } from "react";
 
 // believe in tree shaking
-import {
-  Layout,
-  Space,
-  Card,
-  Typography,
-  Col,
-  Row,
-  Button,
-  Badge,
-  Avatar,
-} from "antd";
+import { Typography, Col, Row, Button, Badge, Space } from "antd";
 import {
   DownloadOutlined,
   FormOutlined,
   FilterOutlined,
-  UserOutlined,
-  CommentOutlined,
 } from "@ant-design/icons"; // incorrect icons
+
+
+import styles from "./index.module.css";
 
 import LeftPanel from "../src/Panel/LeftPanel";
 import RightPanel from "../src/Panel/RightPanel";
 
-const { Header, Footer, Content } = Layout;
 const { Title, Text } = Typography;
 
 const App: React.FC = () => {
@@ -33,16 +23,18 @@ const App: React.FC = () => {
         <Col span={12}>
           <Title level={2}>Page title</Title>
         </Col>
-        <Col span={12}>
-          <Button>
-            Export to PDF <DownloadOutlined />
-          </Button>
-          <Button>
-            Notes <Text type="secondary">(3)</Text> <FormOutlined />
-          </Button>
-          <Button>
-            Filter <Badge count={"9+"} /> <FilterOutlined />
-          </Button>
+        <Col span={12} className={styles.buttonContainer}>
+          <Space>
+            <Button>
+              Export to PDF <DownloadOutlined />
+            </Button>
+            <Button>
+              Notes <Text type="secondary">(3)</Text> <FormOutlined />
+            </Button>
+            <Button>
+              Filter <Badge count={"9+"} /> <FilterOutlined />
+            </Button>
+          </Space>
         </Col>
       </Row>
       <Row gutter={16}>
