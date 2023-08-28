@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Layout, Space, Card, Typography, Col, Row, Button, Badge, Avatar } from 'antd';
 import { DownloadOutlined, FormOutlined, FilterOutlined, UserOutlined, CommentOutlined } from '@ant-design/icons'; // incorrect icons
 
@@ -20,8 +20,30 @@ const contentStyle: React.CSSProperties = {
   padding: '0 calc(50% - 600px)', /// !
 };
 
-const App: React.FC = () => (
-  <Space direction="vertical" style={{ width: '100%', height: '100vh'}}>
+const App: React.FC = () => {
+  useEffect(() => {
+    import('@antv/g2').then( G2 => {
+
+      const chart = new G2.Chart({
+        container: 'container',
+        theme: 'classic',
+        autoFit: true,
+      });
+      
+      chart
+        .interval()
+        .data([{ letter: 'A', frequency: 120 }])
+        .encode('x', 'letter')
+        .encode('y', 'frequency')
+        .scale('x', { padding: 0.5 })
+        // .style('minWidth', 500)
+        .style('maxWidth', 200);
+      
+      chart.render();
+      
+    })
+  }, [])
+  return (<Space direction="vertical" style={{ width: '100%', height: '100vh'}}>
     <Layout>
       <Header style={headerStyle}><Title>App title</Title></Header>
       <Content style={contentStyle}>
@@ -41,6 +63,7 @@ const App: React.FC = () => (
                 <Avatar size="small" icon={<UserOutlined />} />,
                 <>3<CommentOutlined /></>,
               ]}>
+              <div id="container"></div>
               <p>Card content</p>
               <p>Card content</p>
               <p>Card content</p>
@@ -59,7 +82,7 @@ const App: React.FC = () => (
         </Row>
       </Content>
     </Layout>
-  </Space>
-)
+  </Space>)
+}
 
 export default App;
