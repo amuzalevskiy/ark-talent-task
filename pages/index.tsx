@@ -1,6 +1,6 @@
 import React from 'react';
-import { Layout, Space, Card, Typography, Col, Row, Button, Tag } from 'antd';
-import { DownloadOutlined, FormOutlined, FilterOutlined } from '@ant-design/icons';
+import { Layout, Space, Card, Typography, Col, Row, Button, Badge, Avatar } from 'antd';
+import { DownloadOutlined, FormOutlined, FilterOutlined, UserOutlined, CommentOutlined } from '@ant-design/icons'; // incorrect icons
 
 const { Header, Footer, Content } = Layout;
 const { Title, Text } = Typography;
@@ -32,12 +32,15 @@ const App: React.FC = () => (
             <Col span={12}>
               <Button>Export to PDF <DownloadOutlined /></Button>
               <Button>Notes <Text type="secondary">(3)</Text> <FormOutlined /></Button>
-              <Button>Filter <Tag color="red">9+</Tag> <FilterOutlined /></Button>
+              <Button>Filter <Badge count={"9+"} /> <FilterOutlined /></Button>
             </Col>
         </Row>
         <Row gutter={16}>
           <Col span={12}>
-            <Card title="Chart title" bordered={true}>
+            <Card title="Chart title" bordered={true} actions={[
+                <Avatar size="small" icon={<UserOutlined />} />,
+                <>Export to PDF<CommentOutlined /></>,
+              ]}>
               <p>Card content</p>
               <p>Card content</p>
               <p>Card content</p>
