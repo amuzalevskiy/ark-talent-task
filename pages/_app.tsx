@@ -19,12 +19,10 @@ const headerStyle: React.CSSProperties = {
 };
 
 const contentStyle: React.CSSProperties = {
-  height: "100vh",
-  minHeight: 320,
-  backgroundColor: "#f5f5f5", /// !
-  padding: "0", /// !
   paddingLeft: "max(24px, calc(50% - 564px))",
+  paddingBottom: 24,
   paddingRight: "max(24px, calc(50% - 564px))",
+  paddingTop: "0",
 };
 
 interface CustomPageProps {}

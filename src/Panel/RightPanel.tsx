@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 
 // believe in tree shaking
-import { Card, Avatar } from "antd";
+import { Card, Avatar, Space } from "antd";
 import { UserOutlined, CommentOutlined } from "@ant-design/icons"; // incorrect icons
 
 import { useAntvG2 } from "../hooks/useAntvG2";
+
+import panelStyles from './panelStyles.module.css'
 
 const RightPanel: React.FC = () => {
   const AntvG2 = useAntvG2();
@@ -35,15 +37,15 @@ const RightPanel: React.FC = () => {
       title="Chart title"
       bordered={true}
       actions={[
-        <>
+        <div key="avatar" className={panelStyles.footerAvatar}>
           <Avatar size="small" icon={<UserOutlined />} />
-        </>,
-        <>
-          3<CommentOutlined />
-        </>,
+        </div>,
+        <div key="comments" className={panelStyles.footerComments}>
+          <Space>3<CommentOutlined  style={{color: 'rgb(99, 154,143)'}} /></Space>
+        </div>,
       ]}
     >
-      <div id="rightPanelContainer"></div>
+      <div id="rightPanelContainer" className={panelStyles.contentGraph}></div>
     </Card>
   );
 };

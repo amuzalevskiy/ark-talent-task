@@ -7,7 +7,7 @@ import {
   FormOutlined,
   FilterOutlined,
 } from "@ant-design/icons"; // incorrect icons
-
+import { useWindowSize } from "@uidotdev/usehooks";
 
 import styles from "./index.module.css";
 
@@ -17,6 +17,7 @@ import RightPanel from "../src/Panel/RightPanel";
 const { Title, Text } = Typography;
 
 const App: React.FC = () => {
+  let windowSize = useWindowSize()
   return (
     <>
       <Row gutter={16}>
@@ -47,14 +48,20 @@ const App: React.FC = () => {
           </Space>
         </Col>
       </Row>
-      <Row gutter={16}>
-        <Col span={12}>
-          <LeftPanel />
-        </Col>
-        <Col span={12}>
-          <RightPanel />
-        </Col>
-      </Row>
+      {windowSize.width > 800 && <>
+        <Row gutter={16}>
+          <Col span={12}>
+            <LeftPanel />
+          </Col>
+          <Col span={12}>
+            <RightPanel />
+          </Col>
+        </Row>
+      </>}
+      {windowSize.width <= 800 && <Space direction="vertical">
+        <LeftPanel />
+        <RightPanel />
+      </Space>}
     </>
   );
 };
