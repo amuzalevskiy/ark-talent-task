@@ -39,7 +39,7 @@ const App: React.FC = () => (
           <Col span={12}>
             <Card title="Chart title" bordered={true} actions={[
                 <Avatar size="small" icon={<UserOutlined />} />,
-                <>Export to PDF<CommentOutlined /></>,
+                <>3<CommentOutlined /></>,
               ]}>
               <p>Card content</p>
               <p>Card content</p>
@@ -47,7 +47,10 @@ const App: React.FC = () => (
             </Card>
           </Col>
           <Col span={12}>
-            <Card title="Chart title" bordered={true}>
+            <Card title="Chart title" bordered={true} actions={[
+                <Avatar size="small" icon={<UserOutlined />} />,
+                <>3<CommentOutlined /></>,
+              ]}>
               <p>Card content</p>
               <p>Card content</p>
               <p>Card content</p>
