@@ -1,88 +1,60 @@
-import React, { useEffect } from 'react';
-import { Layout, Space, Card, Typography, Col, Row, Button, Badge, Avatar } from 'antd';
-import { DownloadOutlined, FormOutlined, FilterOutlined, UserOutlined, CommentOutlined } from '@ant-design/icons'; // incorrect icons
+import React, { useEffect } from "react";
+
+// believe in tree shaking
+import {
+  Layout,
+  Space,
+  Card,
+  Typography,
+  Col,
+  Row,
+  Button,
+  Badge,
+  Avatar,
+} from "antd";
+import {
+  DownloadOutlined,
+  FormOutlined,
+  FilterOutlined,
+  UserOutlined,
+  CommentOutlined,
+} from "@ant-design/icons"; // incorrect icons
+
+import LeftPanel from "../src/Panel/LeftPanel";
+import RightPanel from "../src/Panel/RightPanel";
 
 const { Header, Footer, Content } = Layout;
 const { Title, Text } = Typography;
 
-const headerStyle: React.CSSProperties = {
-  height: 64,
-  background: 'white',
-  boxShadow: 'rgba(99, 99, 99, 0.2) 0 -32px 13px 36px',
-  zIndex: 1,
-  padding: '0 calc(50% - 600px)', /// !
-};
-
-const contentStyle: React.CSSProperties = {
-  height: '100vh',
-  minHeight: 320,
-  backgroundColor: '#f5f5f5', /// !
-  padding: '0 calc(50% - 600px)', /// !
-};
-
 const App: React.FC = () => {
-  useEffect(() => {
-    import('@antv/g2').then( G2 => {
-
-      const chart = new G2.Chart({
-        container: 'container',
-        theme: 'classic',
-        autoFit: true,
-      });
-      
-      chart
-        .interval()
-        .data([{ letter: 'A', frequency: 120 }])
-        .encode('x', 'letter')
-        .encode('y', 'frequency')
-        .scale('x', { padding: 0.5 })
-        // .style('minWidth', 500)
-        .style('maxWidth', 200);
-      
-      chart.render();
-      
-    })
-  }, [])
-  return (<Space direction="vertical" style={{ width: '100%', height: '100vh'}}>
-    <Layout>
-      <Header style={headerStyle}><Title>App title</Title></Header>
-      <Content style={contentStyle}>
-        <Row gutter={16}>
-            <Col span={12}>
-              <Title level={2}>Page title</Title>
-            </Col>
-            <Col span={12}>
-              <Button>Export to PDF <DownloadOutlined /></Button>
-              <Button>Notes <Text type="secondary">(3)</Text> <FormOutlined /></Button>
-              <Button>Filter <Badge count={"9+"} /> <FilterOutlined /></Button>
-            </Col>
-        </Row>
-        <Row gutter={16}>
-          <Col span={12}>
-            <Card title="Chart title" bordered={true} actions={[
-                <Avatar size="small" icon={<UserOutlined />} />,
-                <>3<CommentOutlined /></>,
-              ]}>
-              <div id="container"></div>
-              <p>Card content</p>
-              <p>Card content</p>
-              <p>Card content</p>
-            </Card>
-          </Col>
-          <Col span={12}>
-            <Card title="Chart title" bordered={true} actions={[
-                <Avatar size="small" icon={<UserOutlined />} />,
-                <>3<CommentOutlined /></>,
-              ]}>
-              <p>Card content</p>
-              <p>Card content</p>
-              <p>Card content</p>
-            </Card>
-          </Col>
-        </Row>
-      </Content>
-    </Layout>
-  </Space>)
-}
+  return (
+    <>
+      <Row gutter={16}>
+        <Col span={12}>
+          <Title level={2}>Page title</Title>
+        </Col>
+        <Col span={12}>
+          <Button>
+            Export to PDF <DownloadOutlined />
+          </Button>
+          <Button>
+            Notes <Text type="secondary">(3)</Text> <FormOutlined />
+          </Button>
+          <Button>
+            Filter <Badge count={"9+"} /> <FilterOutlined />
+          </Button>
+        </Col>
+      </Row>
+      <Row gutter={16}>
+        <Col span={12}>
+          <LeftPanel />
+        </Col>
+        <Col span={12}>
+          <RightPanel />
+        </Col>
+      </Row>
+    </>
+  );
+};
 
 export default App;
