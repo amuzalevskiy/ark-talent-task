@@ -6,6 +6,10 @@
     "start": "next start"
   },
   "dependencies": {
+    "@antv/g2": "^5.0.22",
+    "@trpc/client": "^10.38.0",
+    "@trpc/server": "^10.38.0",
+    "antd": "^5.8.5",
     "next": "latest",
     "react": "18.2.0",
     "react-dom": "18.2.0"
