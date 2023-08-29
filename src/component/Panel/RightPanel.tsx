@@ -1,12 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 
 // believe in tree shaking
-import { Card, Avatar, Space } from "antd";
-import { UserOutlined, CommentOutlined } from "@ant-design/icons"; // incorrect icons
+import { Card, Avatar, Space, Button } from "antd";
+import { UserOutlined, CommentOutlined, HeartOutlined } from "@ant-design/icons"; // incorrect icons
 
 import { useAntvG2 } from "../../hook/useAntvG2";
 
 import panelStyles from './panelStyles.module.css'
+import { panelApi } from "../../store/RightPanelState";
 
 const RightPanel: React.FC = () => {
   const AntvG2 = useAntvG2();
@@ -32,10 +33,17 @@ const RightPanel: React.FC = () => {
     };
   }, [AntvG2]);
 
+  // favourite implementation
+  let isFavourite = panelApi.useIsFavourite()
+  let toggleFavourite = useCallback(() => {
+    panelApi.setFavourite(!isFavourite)
+  }, [isFavourite])
+
   return (
     <Card
       title="Chart title"
       bordered={true}
+      extra={<Button onClick={toggleFavourite} type={isFavourite ? 'primary': undefined} shape="circle" icon={<HeartOutlined style={{marginTop: 3}}/>} />}
       actions={[
         <div key="avatar" className={panelStyles.footerAvatar}>
           <Avatar size="small" icon={<UserOutlined />} />

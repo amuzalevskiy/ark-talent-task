@@ -5,9 +5,12 @@ export type LeftPanelState = {
 };
 
 const [getState, updateState] = addStore<LeftPanelState>("leftPanel");
+updateState((draft) => {
+  draft.isFavourite = false;
+});
 
 export const panelApi = {
-  getFavourite: createUseStoreDataHook(() => getState().isFavourite),
+  useIsFavourite: createUseStoreDataHook(() => getState().isFavourite),
   setFavourite(value: boolean) {
     updateState((draft) => {
       draft.isFavourite = value;

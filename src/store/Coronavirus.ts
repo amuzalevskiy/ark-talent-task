@@ -12,6 +12,9 @@ export type CoronavirusState = {
 };
 
 const [getState, updateState] = addStore<CoronavirusState>("coronavirus");
+updateState((draft) => {
+  draft.casesByCountry = {};
+});
 
 export const coronavirusApi = {
   getCasesByCountry: createUseStoreDataHook((countryName: string) => {

@@ -18,27 +18,29 @@ function getStoreState<T>(storeName: string): Immutable<T> {
 function createUpdateStoreState<TStoreChunk>(storeName: string) {
   return (cb: (draft: Draft<TStoreChunk>) => void) => {
     const nextStoreState = produce(currentStoreState, (draft) => {
-        if (!draft[storeName]) {
-            draft[storeName] = {}
-        }
-        cb(draft[storeName]);
+      if (!draft[storeName]) {
+        draft[storeName] = {};
+      }
+      cb(draft[storeName]);
     });
     if (nextStoreState !== currentStoreState) {
       currentStoreState = nextStoreState;
+      // DEBUG:
+      // console.log(currentStoreState)
       emitChange();
     }
   };
 }
 
 export function addStore<TStoreChunk>(
-  name: string
+  storeName: string
 ): [
   () => Immutable<TStoreChunk>,
   (cb: (draft: Draft<TStoreChunk>) => void) => void
 ] {
   return [
-    () => getStoreState<TStoreChunk>("coronavirus"),
-    createUpdateStoreState<TStoreChunk>("coronavirus"),
+    () => getStoreState<TStoreChunk>(storeName),
+    createUpdateStoreState<TStoreChunk>(storeName),
   ];
 }
 
