@@ -17,53 +17,72 @@ import RightPanel from "../src/component/Panel/RightPanel";
 const { Title, Text } = Typography;
 
 const App: React.FC = () => {
-  const windowSize = useWindowSize()
-  const windowWidth = windowSize ? windowSize.width || 0 : 0
+  const windowSize = useWindowSize();
+  const windowWidth = windowSize ? windowSize.width || 0 : 0;
+  const title = <Title level={2}>Page title</Title>;
+  const buttons = (
+    <Space>
+      <Button>
+        <Space>
+          Export to PDF
+          <DownloadOutlined style={{ color: "rgb(99, 154,143)" }} />
+        </Space>
+      </Button>
+      <Button>
+        <Space>
+          <span>
+            Notes<Text type="secondary">(3)</Text>
+          </span>
+          <FormOutlined style={{ color: "rgb(99, 154,143)" }} />
+        </Space>
+      </Button>
+      <Button>
+        <Space>
+          Filter
+          <Badge count={"9+"} />
+          <FilterOutlined style={{ color: "rgb(99, 154,143)" }} />
+        </Space>
+      </Button>
+    </Space>
+  );
   return (
     <>
-      <Row gutter={16}>
-        <Col span={12}>
-          <Title level={2}>Page title</Title>
-        </Col>
-        <Col span={12} className={styles.buttonContainer}>
-          <Space>
-            <Button>
-              <Space>
-                Export to PDF
-                <DownloadOutlined style={{color: 'rgb(99, 154,143)'}} />
-              </Space>
-            </Button>
-            <Button>
-              <Space>
-                <span>Notes<Text type="secondary">(3)</Text></span>
-                <FormOutlined style={{color: 'rgb(99, 154,143)'}} />
-              </Space>
-            </Button>
-            <Button>
-              <Space>
-                Filter
-                <Badge count={"9+"} />
-                <FilterOutlined style={{color: 'rgb(99, 154,143)'}} />
-              </Space>
-            </Button>
-          </Space>
-        </Col>
-      </Row>
-      {windowWidth > 800 && <>
-        <Row gutter={16}>
-          <Col span={12}>
-            <LeftPanel />
-          </Col>
-          <Col span={12}>
-            <RightPanel />
-          </Col>
-        </Row>
-      </>}
-      {windowWidth <= 800 && <>
-        <LeftPanel />
-        <div className={styles.verticalGap}/>
-        <RightPanel />
-      </>}
+      {windowWidth > 640 && (
+        <>
+          <Row gutter={16}>
+            <Col span={12}>{title}</Col>
+            <Col span={12} className={styles.buttonContainer}>
+              {buttons}
+            </Col>
+          </Row>
+        </>
+      )}
+      {windowWidth <= 640 && (
+        <>
+          {title}
+          {buttons}
+          <div className={styles.verticalGap} />
+        </>
+      )}
+      {windowWidth > 800 && (
+        <>
+          <Row gutter={16}>
+            <Col span={12}>
+              <LeftPanel />
+            </Col>
+            <Col span={12}>
+              <RightPanel />
+            </Col>
+          </Row>
+        </>
+      )}
+      {windowWidth <= 800 && (
+        <>
+          <LeftPanel />
+          <div className={styles.verticalGap} />
+          <RightPanel />
+        </>
+      )}
     </>
   );
 };
