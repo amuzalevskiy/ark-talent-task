@@ -15,10 +15,9 @@ import { panelApi } from "../../store/LeftPanelState";
 import { coronavirusApi } from "../../store/Coronavirus";
 
 const LeftPanel: React.FC = () => {
-  const nation = "Wales";
   const AntvG2 = useAntvG2();
-  const hasEnglandCases = coronavirusApi.useHasCasesByNation(nation);
-  const englandCases = coronavirusApi.useCasesByNation(nation);
+  const nation = "Wales";
+  const walesCases = coronavirusApi.useCasesByNation(nation);
 
   useEffect(() => {
     coronavirusApi.loadCasesByNation(nation);
@@ -40,7 +39,7 @@ const LeftPanel: React.FC = () => {
 
     chart
       .line()
-      .data(englandCases&& englandCases.length ? englandCases.slice(-120): [])
+      .data(walesCases&& walesCases.length ? walesCases.slice(-120): [])
       .encode('x', (d) => new Date(d.date))
       .encode("y", "dailyCases")
       .scale("x", { padding: 0.5 })
@@ -52,7 +51,7 @@ const LeftPanel: React.FC = () => {
     return () => {
       // destroy ?
     };
-  }, [AntvG2, englandCases]);
+  }, [AntvG2, walesCases]);
 
   return (
     <Card

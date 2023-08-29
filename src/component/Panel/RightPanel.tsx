@@ -17,17 +17,11 @@ import { coronavirusApi } from "../../store/Coronavirus";
 const RightPanel: React.FC = () => {
   const AntvG2 = useAntvG2();
   const nation = "Scotland";
-  const hasEnglandCases = coronavirusApi.useHasCasesByNation(nation);
-  const englandCases = coronavirusApi.useCasesByNation(nation);
+  const scotlandCases = coronavirusApi.useCasesByNation(nation);
 
   useEffect(() => {
     coronavirusApi.loadCasesByNation(nation);
   }, []);
-
-  console.log({
-    hasEnglandCases,
-    englandCases,
-  });
 
   useEffect(() => {
     if (!AntvG2) return;
@@ -39,7 +33,7 @@ const RightPanel: React.FC = () => {
 
     chart
       .line()
-      .data(englandCases&& englandCases.length ? englandCases.slice(-120): [])
+      .data(scotlandCases&& scotlandCases.length ? scotlandCases.slice(-120): [])
       .encode('x', (d) => new Date(d.date))
       .encode("y", "dailyCases")
       .scale("x", { padding: 0.5 })
@@ -51,7 +45,7 @@ const RightPanel: React.FC = () => {
     return () => {
       // destroy ?
     };
-  }, [AntvG2, englandCases]);
+  }, [AntvG2, scotlandCases]);
 
   // favourite implementation
   let isFavourite = panelApi.useIsFavourite();

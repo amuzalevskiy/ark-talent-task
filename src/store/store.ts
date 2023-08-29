@@ -1,8 +1,8 @@
 /**
- * FOR DOCUMENTATION ONLY
+ * FOR DOCUMENTATION PURPOSE ONLY
  */
 import { CoronavirusState } from "./Coronavirus";
-import { LeftPanelState } from "./leftPanelState";
+import { LeftPanelState } from "./LeftPanelState";
 import { RightPanelState } from "./RightPanelState";
 
 export type Store = {

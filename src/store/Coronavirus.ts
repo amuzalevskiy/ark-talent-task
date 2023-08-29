@@ -25,10 +25,12 @@ export const coronavirusApi = {
     const cases = getState().casesByNation[nation];
     return cases?.response?.data;
   }),
+  
   useHasCasesByNation: createUseStoreDataHook((nation: string) => {
     const cases = getState().casesByNation[nation];
     return cases?.isLoaded;
   }),
+
   loadCasesByNation(
     nation: string
   ): Promise<void | BasicCoronavirusApiResponse> {
