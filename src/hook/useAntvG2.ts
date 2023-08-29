@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-let promiseLoading = null;
-let AntvG2 = null;
+let promiseLoading: null | Promise<any> = null;
+let AntvG2: null | typeof import("@antv/g2") = null;
 
 /*
  * This is hack... antv.g2 cannot be built in my local environment for unknown reason,
@@ -11,7 +11,10 @@ export function useAntvG2(): null | typeof import("@antv/g2") {
   const [loaded, setLoaded] = useState(AntvG2 !== null);
   if (!loaded) {
     if (!promiseLoading) {
-      promiseLoading = import("../../node_modules/@antv/g2/dist/g2.min.js").then((G2) => {
+      promiseLoading = import(
+        // @ts-ignore
+        "../../node_modules/@antv/g2/dist/g2.min.js"
+      ).then((G2: typeof import("@antv/g2")) => {
         AntvG2 = G2;
         setLoaded(true);
         promiseLoading = null;

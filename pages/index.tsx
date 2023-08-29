@@ -17,7 +17,8 @@ import RightPanel from "../src/component/Panel/RightPanel";
 const { Title, Text } = Typography;
 
 const App: React.FC = () => {
-  let windowSize = useWindowSize()
+  const windowSize = useWindowSize()
+  const windowWidth = windowSize ? windowSize.width || 0 : 0
   return (
     <>
       <Row gutter={16}>
@@ -48,7 +49,7 @@ const App: React.FC = () => {
           </Space>
         </Col>
       </Row>
-      {windowSize.width > 800 && <>
+      {windowWidth > 800 && <>
         <Row gutter={16}>
           <Col span={12}>
             <LeftPanel />
@@ -58,7 +59,7 @@ const App: React.FC = () => {
           </Col>
         </Row>
       </>}
-      {windowSize.width <= 800 && <>
+      {windowWidth <= 800 && <>
         <LeftPanel />
         <div className={styles.verticalGap}/>
         <RightPanel />

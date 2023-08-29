@@ -9,7 +9,7 @@ export type CoronavirusState = {
     [key: string]: {
       isLoaded?: boolean;
       isError?: boolean;
-      promise?: Promise<void | BasicCoronavirusApiResponse>;
+      promise?: Promise<BasicCoronavirusApiResponse>;
       response?: BasicCoronavirusApiResponse;
     };
   };
@@ -25,20 +25,22 @@ export const coronavirusApi = {
     const cases = getState().casesByNation[nation];
     return cases?.response?.data;
   }),
-  
+
   useHasCasesByNation: createUseStoreDataHook((nation: string) => {
     const cases = getState().casesByNation[nation];
     return cases?.isLoaded;
   }),
 
-  loadCasesByNation(
-    nation: string
-  ): Promise<void | BasicCoronavirusApiResponse> {
+  loadCasesByNation(nation: string): Promise<BasicCoronavirusApiResponse> {
     const cases = getState().casesByNation[nation];
     let promise = cases?.promise;
     if (promise) {
       return promise;
     }
+
+    const filters = [`areaName=${nation}`, `areaType=nation`];
+    let createdPromise: Promise<BasicCoronavirusApiResponse> =
+      loadCoronavirusData(filters);
 
     updateState((draft) => {
       let cases = draft.casesByNation[nation];
@@ -46,9 +48,8 @@ export const coronavirusApi = {
         cases = draft.casesByNation[nation] = {};
       }
 
-      const filters = [`areaName=${nation}`, `areaType=nation`];
       try {
-        cases.promise = loadCoronavirusData(filters).then(
+        createdPromise = cases.promise = createdPromise.then(
           (data) => {
             updateState((draft) => {
               let cases = draft.casesByNation[nation];
@@ -57,14 +58,16 @@ export const coronavirusApi = {
               cases.promise = undefined;
               cases.response = data;
             });
+            return data;
           },
-          () => {
+          (e) => {
             updateState((draft) => {
               let cases = draft.casesByNation[nation];
               cases.isLoaded = true;
               cases.isError = true;
               cases.promise = undefined;
             });
+            throw e;
           }
         );
       } catch (e) {
@@ -73,5 +76,6 @@ export const coronavirusApi = {
         cases.promise = undefined;
       }
     });
+    return createdPromise;
   },
 };

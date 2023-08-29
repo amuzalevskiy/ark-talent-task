@@ -44,7 +44,7 @@ export type BasicCoronavirusApiResponse = {
  *          Comprehensive list of dictionaries containing all the data for
  *          the given ``filters`` and ``structure``.
  */
-export const loadCoronavirusData = async (filters, page = 1) => {
+export const loadCoronavirusData = async (filters: string[], page = 1) => {
   const structure = {
     date: "date",
     name: "areaName",

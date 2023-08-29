@@ -33,12 +33,14 @@ const RightPanel: React.FC = () => {
 
     chart
       .line()
-      .data(scotlandCases&& scotlandCases.length ? scotlandCases.slice(-120): [])
-      .encode('x', (d) => new Date(d.date))
+      .data(
+        scotlandCases && scotlandCases.length ? scotlandCases.slice(-120) : []
+      )
+      .encode("x", (d: { date: string }) => new Date(d.date))
       .encode("y", "dailyCases")
       .scale("x", { padding: 0.5 })
-      .axis('y', { title: 'Date' })
-      .axis('x', { title: 'Daily cases' });
+      .axis("y", { title: "Date" })
+      .axis("x", { title: "Daily cases" });
 
     chart.render();
 

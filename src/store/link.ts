@@ -49,7 +49,7 @@ export function addStore<TStoreChunk>(
   ];
 }
 
-export function createUseStoreDataHook<FnType extends (...p) => any>(
+export function createUseStoreDataHook<FnType extends (...p: any[]) => any>(
   getter: FnType
 ): FnType {
   return <FnType>((...p) => {
