@@ -4,3 +4,6 @@
   align-items: center;
   justify-content: flex-end;
 }
+.verticalGap{
+  height: 16px;
+}

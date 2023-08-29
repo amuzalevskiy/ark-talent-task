@@ -58,10 +58,11 @@ const App: React.FC = () => {
           </Col>
         </Row>
       </>}
-      {windowSize.width <= 800 && <Space direction="vertical">
+      {windowSize.width <= 800 && <>
         <LeftPanel />
+        <div className={styles.verticalGap}/>
         <RightPanel />
-      </Space>}
+      </>}
     </>
   );
 };
