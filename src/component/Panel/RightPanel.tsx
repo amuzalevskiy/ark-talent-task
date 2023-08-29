@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { Card, Avatar, Space } from "antd";
 import { UserOutlined, CommentOutlined } from "@ant-design/icons"; // incorrect icons
 
-import { useAntvG2 } from "../hooks/useAntvG2";
+import { useAntvG2 } from "../../hook/useAntvG2";
 
 import panelStyles from './panelStyles.module.css'
 

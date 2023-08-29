@@ -11,8 +11,8 @@ import { useWindowSize } from "@uidotdev/usehooks";
 
 import styles from "./index.module.css";
 
-import LeftPanel from "../src/Panel/LeftPanel";
-import RightPanel from "../src/Panel/RightPanel";
+import LeftPanel from "../src/component/Panel/LeftPanel";
+import RightPanel from "../src/component/Panel/RightPanel";
 
 const { Title, Text } = Typography;
 
