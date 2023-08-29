@@ -15,22 +15,38 @@ export type CoronavirusState = {
   };
 };
 
+// get access to the store data
 const [getState, updateState] = addStore<CoronavirusState>("coronavirus");
+
+// initialize
 updateState((draft) => {
   draft.casesByNation = {};
 });
 
+// provide API
 export const coronavirusApi = {
+  /**
+   * Returns cases filtered by specific nation if available
+   */
   useCasesByNation: createUseStoreDataHook((nation: string) => {
     const cases = getState().casesByNation[nation];
     return cases?.response?.data;
   }),
 
+  /**
+   * Returns if store has data available for specific nation
+   */
   useHasCasesByNation: createUseStoreDataHook((nation: string) => {
     const cases = getState().casesByNation[nation];
-    return cases?.isLoaded;
+    return cases?.isLoaded && cases?.response?.data;
   }),
 
+  /**
+   * Loads data from third party API
+   *
+   * @param nation string - nation
+   * @returns Promise<BasicCoronavirusApiResponse> - promise which will be resolved once data are loaded
+   */
   loadCasesByNation(nation: string): Promise<BasicCoronavirusApiResponse> {
     const cases = getState().casesByNation[nation];
     let promise = cases?.promise;
@@ -38,19 +54,20 @@ export const coronavirusApi = {
       return promise;
     }
 
-    const filters = [`areaName=${nation}`, `areaType=nation`];
-    let createdPromise: Promise<BasicCoronavirusApiResponse> =
-      loadCoronavirusData(filters);
+    try {
+      const filters = [`areaName=${nation}`, `areaType=nation`];
+      let createdPromise: Promise<BasicCoronavirusApiResponse> =
+        loadCoronavirusData(filters);
 
-    updateState((draft) => {
-      let cases = draft.casesByNation[nation];
-      if (!cases) {
-        cases = draft.casesByNation[nation] = {};
-      }
+      updateState((draft) => {
+        let cases = draft.casesByNation[nation];
+        if (!cases) {
+          cases = draft.casesByNation[nation] = {};
+        }
 
-      try {
         createdPromise = cases.promise = createdPromise.then(
           (data) => {
+            // call updateState again, because this happens at different time
             updateState((draft) => {
               let cases = draft.casesByNation[nation];
               cases.isLoaded = true;
@@ -61,6 +78,7 @@ export const coronavirusApi = {
             return data;
           },
           (e) => {
+            // call updateState again, because this happens at different time
             updateState((draft) => {
               let cases = draft.casesByNation[nation];
               cases.isLoaded = true;
@@ -70,12 +88,20 @@ export const coronavirusApi = {
             throw e;
           }
         );
-      } catch (e) {
+      });
+      return createdPromise;
+    } catch (e) {
+      updateState((draft) => {
+        let cases = draft.casesByNation[nation];
+        if (!cases) {
+          cases = draft.casesByNation[nation] = {};
+        }
+
         cases.isLoaded = true;
         cases.isError = true;
         cases.promise = undefined;
-      }
-    });
-    return createdPromise;
+      });
+      return Promise.reject(e);
+    }
   },
 };

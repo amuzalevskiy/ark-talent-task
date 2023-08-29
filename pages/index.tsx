@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 // believe in tree shaking
 import { Typography, Col, Row, Button, Badge, Space } from "antd";
