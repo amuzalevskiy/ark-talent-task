@@ -1,10 +1,14 @@
-import { BasicCoronavirusApiResponse } from "../definition/api.coronavirus";
+import {
+  BasicCoronavirusApiResponse,
+  loadCoronavirusData,
+} from "../api/api.coronavirus";
 import { addStore, createUseStoreDataHook } from "./link";
 
 export type CoronavirusState = {
-  casesByCountry: {
+  casesByNation: {
     [key: string]: {
       isLoaded?: boolean;
+      isError?: boolean;
       promise?: Promise<void | BasicCoronavirusApiResponse>;
       response?: BasicCoronavirusApiResponse;
     };
@@ -13,36 +17,59 @@ export type CoronavirusState = {
 
 const [getState, updateState] = addStore<CoronavirusState>("coronavirus");
 updateState((draft) => {
-  draft.casesByCountry = {};
+  draft.casesByNation = {};
 });
 
 export const coronavirusApi = {
-  getCasesByCountry: createUseStoreDataHook((countryName: string) => {
-    return getState().casesByCountry[countryName]?.response?.data;
+  useCasesByNation: createUseStoreDataHook((nation: string) => {
+    const cases = getState().casesByNation[nation];
+    return cases?.response?.data;
   }),
-  hasCasesByCountry: createUseStoreDataHook((countryName: string) => {
-    return getState().casesByCountry[countryName]?.isLoaded;
+  useHasCasesByNation: createUseStoreDataHook((nation: string) => {
+    const cases = getState().casesByNation[nation];
+    return cases?.isLoaded;
   }),
-  loadCasesByCountry(
-    countryName: string
+  loadCasesByNation(
+    nation: string
   ): Promise<void | BasicCoronavirusApiResponse> {
-    let promise = getState().casesByCountry[countryName]?.promise;
+    const cases = getState().casesByNation[nation];
+    let promise = cases?.promise;
     if (promise) {
       return promise;
     }
 
     updateState((draft) => {
-      draft.casesByCountry[countryName].promise = fetch("")
-        .then((response) => response.json())
-        .then((body) => {
-          updateState((draft) => {
-            draft.casesByCountry[countryName].isLoaded = true;
-            draft.casesByCountry[countryName].promise = undefined;
-            draft.casesByCountry[countryName].response = <
-              BasicCoronavirusApiResponse
-            >body;
-          });
-        });
+      let cases = draft.casesByNation[nation];
+      if (!cases) {
+        cases = draft.casesByNation[nation] = {};
+      }
+
+      const filters = [`areaName=${nation}`, `areaType=nation`];
+      try {
+        cases.promise = loadCoronavirusData(filters).then(
+          (data) => {
+            updateState((draft) => {
+              let cases = draft.casesByNation[nation];
+              cases.isLoaded = true;
+              cases.isError = false;
+              cases.promise = undefined;
+              cases.response = data;
+            });
+          },
+          () => {
+            updateState((draft) => {
+              let cases = draft.casesByNation[nation];
+              cases.isLoaded = true;
+              cases.isError = true;
+              cases.promise = undefined;
+            });
+          }
+        );
+      } catch (e) {
+        cases.isLoaded = true;
+        cases.isError = true;
+        cases.promise = undefined;
+      }
     });
   },
 };

@@ -6,7 +6,7 @@ import { LeftPanelState } from "./leftPanelState";
 import { RightPanelState } from "./RightPanelState";
 
 export type Store = {
-    leftPanel: LeftPanelState,
-    rightPanel: RightPanelState,
-    coronavirus: CoronavirusState,
-}
+  leftPanel: LeftPanelState;
+  rightPanel: RightPanelState;
+  coronavirus: CoronavirusState;
+};

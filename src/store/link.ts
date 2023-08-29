@@ -32,12 +32,17 @@ function createUpdateStoreState<TStoreChunk>(storeName: string) {
   };
 }
 
+let existingStores = new Set<string>();
 export function addStore<TStoreChunk>(
   storeName: string
 ): [
   () => Immutable<TStoreChunk>,
   (cb: (draft: Draft<TStoreChunk>) => void) => void
 ] {
+  if (existingStores.has(storeName)) {
+    throw new Error(`Store "${storeName}" already exists`);
+  }
+  existingStores.add(storeName);
   return [
     () => getStoreState<TStoreChunk>(storeName),
     createUpdateStoreState<TStoreChunk>(storeName),
