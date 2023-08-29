@@ -39,11 +39,13 @@ const LeftPanel: React.FC = () => {
     });
 
     chart
-      .interval()
+      .line()
       .data(englandCases&& englandCases.length ? englandCases.slice(-120): [])
-      .encode("x", "date")
+      .encode('x', (d) => new Date(d.date))
       .encode("y", "dailyCases")
-      .scale("x", { padding: 0.5 });
+      .scale("x", { padding: 0.5 })
+      .axis('y', { title: 'Date' })
+      .axis('x', { title: 'Daily cases' });
 
     chart.render();
 
